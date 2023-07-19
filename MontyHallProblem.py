@@ -31,16 +31,11 @@ h_lost.SetMarkerColor(ROOT.kBlue)
 for n_try in range(1,n_tries+1):
     ## assign all doors with 0 (no car)
     n_doors = 3
-    doors_values = []
-    for door in range(n_doors):
-        doors_values.append(0)
+    doors_values = [0 for _ in range(n_doors)]
 
-    ## choose randomy one door to put the car (=1)
+    ## choose randomly one door to put the car (=1)
     rand_idx = random.randint(0, len(doors_values)-1)
     doors_values[rand_idx] = 1
-
-    ## find all doors without car
-    doors_without_car = [i for i, e in enumerate(doors_values) if e == 0]
 
     ## randomly choose a door
     door_chosen = random.randint(0, len(doors_values)-1)
@@ -53,7 +48,7 @@ for n_try in range(1,n_tries+1):
             empty_door = rand_idx
             break
 
-    ## find the door that is left (not chosen and not the empty selected in previous step)
+    ## find the door that is left (not chosen and not the empty one selected in previous step)
     door_left = -1
     for index, door in enumerate(doors_values):
         if index != empty_door and index != door_chosen: door_left = index
