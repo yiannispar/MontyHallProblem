@@ -50,7 +50,7 @@ for n_try in range(1,n_tries+1):
 
     ## find the door that is left (not chosen and not the empty one selected in previous step)
     door_left = -1
-    for index, door in enumerate(doors_values):
+    for index in range(n_doors):
         if index != empty_door and index != door_chosen: door_left = index
 
     ## make the decision to keep or switch doors (we always switch)
