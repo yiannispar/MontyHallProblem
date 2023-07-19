@@ -1,3 +1,5 @@
+Simple script to run the Monty Hall Problem multiple times  
+
 Prerequisites  
 -------------
 You need [ROOT](https://root.cern/install/)  
