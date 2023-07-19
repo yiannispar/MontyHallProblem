@@ -1,8 +1,15 @@
 import random
 import ROOT
+import argparse
 
-n_tries = 1000
 outcomes = []
+
+#parse arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('-n', type=int, help='Number of tries to run', default=100)
+args = parser.parse_args()
+
+n_tries = args.n
 
 ROOT.gROOT.SetBatch(1)
 ROOT.gStyle.SetOptStat(0)
@@ -10,17 +17,16 @@ ROOT.gStyle.SetOptStat(0)
 c = ROOT.TCanvas("c","c",800,800)
 c.SetGrid()
 c.SetTicks()
+c.SetLeftMargin(0.15)
 
 ## histograms
 h_win = ROOT.TH1F("h_win",";Number of tries;Wins",n_tries,0.5,n_tries+0.5)
 h_win.SetMarkerStyle(20)
 h_win.SetMarkerColor(ROOT.kRed)
-h_win.GetYaxis().SetMaxDigits(2)
 
 h_lost = ROOT.TH1F("h_lost",";Number of tries;Wins",n_tries,0.5,n_tries+0.5)
 h_lost.SetMarkerStyle(20)
 h_lost.SetMarkerColor(ROOT.kBlue)
-h_lost.GetYaxis().SetMaxDigits(2)
 
 for n_try in range(1,n_tries+1):
     ## assign all doors with 0 (no car)
@@ -82,10 +88,14 @@ else:
     h_lost.Draw("p")
     h_win.Draw("same p")
 
-leg = ROOT.TLegend(0.15,0.7,0.3,0.85)
+leg = ROOT.TLegend(0.2,0.7,0.35,0.85)
 leg.SetBorderSize(0)
 leg.AddEntry(h_win,"Switching","p")
 leg.AddEntry(h_lost,"Staying","p")
 leg.Draw()
+
+latex = ROOT.TLatex()
+latex.SetTextSize(0.025)
+latex.DrawLatexNDC(0.15,0.905,f"After {n_tries} tries you won {round(outcomes.count(1)*100/n_tries,1)}% of times by switching doors")
 
 c.SaveAs("outcomes.pdf")
